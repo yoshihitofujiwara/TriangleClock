@@ -46,19 +46,16 @@ function init() {
 		renderManeger3D.gui.add(renderManeger3D.gui.params, 'particles', 1000, 100000).step(10).onChange((val) => {
 			createParticle();
 		});
-
 		renderManeger3D.gui.add(renderManeger3D.gui.params, 'size', 0.1, 10).onChange((val) => {
 			particleList.forEach((item, i) => {
 				item.material.uniforms.size.value = val;
 			});
 		});
-
 		renderManeger3D.gui.add(renderManeger3D.gui.params, 'opacity', 0.1, 1).onChange((val) => {
 			particleList.forEach((item, i) => {
 				item.material.uniforms.opacity.value = val;
 			});
 		});
-
 		renderManeger3D.gui.add(renderManeger3D.gui.params, 'noise', 0, 5).onChange((val) => {
 			particleList.forEach((item, i) => {
 				item.material.uniforms.noise.value = val;
@@ -124,6 +121,7 @@ function createParticle(){
 		// TextGeometry内にランダムな頂点を追加
 		numberList[i].particles.vertices = THREE.GeometryUtils.randomPointsInGeometry(numberList[i].geometry, renderManeger3D.gui.params.particles / 6);
 
+		// 三角ポリゴンの位置情報
 		numberList[i].particles.offsets = [];
 		numberList[i].particles.vertices.forEach((vertex) => {
 			numberList[i].particles.offsets.push(vertex.x, vertex.y, vertex.z);
@@ -133,7 +131,6 @@ function createParticle(){
 	// パーティクル削除
 	renderManeger3D.scene.remove.apply(renderManeger3D.scene, renderManeger3D.scene.children);
 
-
 	// ベースの三角形
 	var positions = [
 		0.0, 0.5, 0,
@@ -141,27 +138,17 @@ function createParticle(){
 		-0.5, -0.5, 0.0
 	];
 
-
 	// パーティクル追加
 	for (let j = 0; j < now.length; ++j) {
 		let offsets = numberList[+now[j]].particles.offsets.concat();
 
 		let colors = [];
-		let vector = new THREE.Vector4();
 		let rotate = [];
 
 		for (let k = 0; k < renderManeger3D.gui.params.particles / 6; k += 1) {
 			colors.push(Math.random(), Math.random(), Math.random());
-
-			vector.set(
-				(Math.random() * 2 - 1),
-				(Math.random() * 2 - 1),
-				(Math.random() * 2 - 1),
-				(Math.random() * 2 - 1 * INK.TWO_PI)
-			);
-			rotate.push(vector.x, vector.y, vector.z, vector.w);
+			rotate.push(Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1, Math.random() * 2 - 1 * INK.TWO_PI);
 		}
-
 
 		let geometry = new THREE.InstancedBufferGeometry();
 		geometry.maxInstancedCount = renderManeger3D.gui.params.particles / 6;
@@ -170,7 +157,6 @@ function createParticle(){
 		geometry.addAttribute('nextOffset', new THREE.InstancedBufferAttribute(new Float32Array(offsets), 3));
 		geometry.addAttribute('color', new THREE.InstancedBufferAttribute(new Float32Array(colors), 3));
 		geometry.addAttribute('rotate', new THREE.InstancedBufferAttribute(new Float32Array(rotate), 4));
-
 
 		let uniforms = {
 			time: { value: 1.0 },
@@ -215,7 +201,6 @@ function morphTo(index, num) {
 	let attributes = particleList[index].geometry.attributes;
 
 	attributes.nextOffset.array = new Float32Array(numberList[num].particles.offsets);
-
 	particleList[index].material.uniforms.progress.value = 0;
 
 	attributes.offset.needsUpdate = true;

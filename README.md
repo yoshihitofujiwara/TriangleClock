@@ -1,6 +1,6 @@
 # Triangle Clock
 
-<a href="https://github.com/yoshihitofujiwara/TriangleClock" target="_blank">DEMO</a><br>
+<!-- <a href="https://github.com/yoshihitofujiwara/TriangleClock" target="_blank">DEMO</a><br> -->
 
 <img src="example.gif">
 
