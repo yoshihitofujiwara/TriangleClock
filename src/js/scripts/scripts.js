@@ -37,7 +37,7 @@ function init() {
 
 	// 数値のパーティクル座標管理リストの生成
 	let loader = new THREE.FontLoader();
-	let typeface = "../assets/fonts/helvetiker_bold.typeface.json?" + performance.now();
+	let typeface = "./assets/fonts/helvetiker_bold.typeface.json?" + performance.now();
 
 	loader.load(typeface, (font) => {
 		fontData = font;
