@@ -1,11 +1,11 @@
-precision highp float;
+precision mediump float;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform float progress;
 uniform float time;
-uniform float noise;
 uniform float size;
+uniform float noise;
 
 attribute vec3 position;
 attribute vec3 offset;
@@ -46,15 +46,15 @@ void main(){
 
 	vec4 orientation = vec4(rotate.xyz, rotate.w + time);
 
-	vec3 basePosition = mix(offset, nextOffset, progress) + (position * size) * rotateQ(orientation.w, orientation.xyz);
+	vec3 newPosition = mix(offset, nextOffset, progress) + (position * size) * rotateQ(orientation.w, orientation.xyz);
 
 	vec3 noise3D = vec3(
-		snoise2(vec2(basePosition.x, time)),
-		snoise2(vec2(basePosition.y, time)),
-		snoise2(vec2(basePosition.z, time))
+		snoise2(vec2(newPosition.x, time)),
+		snoise2(vec2(newPosition.y, time)),
+		snoise2(vec2(newPosition.z, time))
 	) * noise;
 
-	vPosition = basePosition + noise3D;
+	vPosition = newPosition + noise3D;
 
 	gl_Position = projectionMatrix * modelViewMatrix * vec4( vPosition, 1.0 );
 }

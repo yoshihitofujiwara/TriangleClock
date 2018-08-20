@@ -88,7 +88,7 @@ function init() {
 		if (now != _now) {
 			for (let i = 0; i < now.length; i++) {
 				if (now[i] != _now[i]) {
-					morphTo(i, +_now[i]);
+					animate(i, +_now[i]);
 				}
 			}
 			now = _now;
@@ -132,7 +132,7 @@ function createParticle(){
 	renderManeger3D.scene.remove.apply(renderManeger3D.scene, renderManeger3D.scene.children);
 
 	// ベースの三角形
-	var positions = [
+	let positions = [
 		0.0, 0.5, 0,
 		0.5, -0.5, 0,
 		-0.5, -0.5, 0.0
@@ -141,7 +141,6 @@ function createParticle(){
 	// パーティクル追加
 	for (let j = 0; j < now.length; ++j) {
 		let offsets = numberList[+now[j]].particles.offsets.concat();
-
 		let colors = [];
 		let rotate = [];
 
@@ -193,11 +192,11 @@ function createParticle(){
 	utils
 --------------------------------------------------------------------------*/
 /**
- * @method morphTo モーフィングアニメーション
+ * @method animate
  * @param {Number} index 桁数（頭から数えて）
  * @param {Number} num アニメーションする数字
  */
-function morphTo(index, num) {
+function animate(index, num) {
 	let attributes = particleList[index].geometry.attributes;
 
 	attributes.nextOffset.array = new Float32Array(numberList[num].particles.offsets);
